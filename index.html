@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Starfarer</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <canvas id="game"></canvas>
+
+  <div id="hud" class="hidden">
+    <div id="hud-top-left">
+      <span id="ship-name">—</span>
+      <span id="location">—</span>
+    </div>
+    <button id="btn-galaxy">🌌 Galaxy Map</button>
+    <button id="btn-change-ship">🚀 Change Ship</button>
+    <div id="panel" class="hidden">
+      <h2 id="panel-title"></h2>
+      <div id="panel-body"></div>
+      <div id="panel-actions"></div>
+      <button id="panel-close">×</button>
+    </div>
+    <div id="toast"></div>
+  </div>
+
+  <div id="ship-select" class="overlay">
+    <h1>Starfarer</h1>
+    <p class="subtitle">Choose your ship.</p>
+    <div id="ship-cards"></div>
+  </div>
+
+  <div id="cutscene" class="overlay hidden">
+    <div id="cutscene-text"></div>
+  </div>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+  <script type="module" src="main.js"></script>
+</body>
+</html>

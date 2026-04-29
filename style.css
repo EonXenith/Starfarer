@@ -1,0 +1,373 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  overflow: hidden;
+  background: #000;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  color: #eee;
+}
+
+#game {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.92);
+  z-index: 100;
+  transition: opacity 0.4s;
+}
+
+.overlay.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Ship Select */
+#ship-select h1 {
+  font-size: 3rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 0.2em;
+  background: linear-gradient(135deg, #7af, #cdf);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+#ship-select .subtitle {
+  font-size: 1.1rem;
+  color: #889;
+  margin-bottom: 2rem;
+}
+
+#ship-cards {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.ship-card {
+  background: rgba(20, 25, 40, 0.9);
+  border: 1px solid rgba(100, 140, 200, 0.3);
+  border-radius: 12px;
+  padding: 1.2rem;
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: border-color 0.2s, transform 0.2s;
+  cursor: pointer;
+}
+
+.ship-card:hover {
+  border-color: rgba(100, 180, 255, 0.7);
+  transform: translateY(-4px);
+}
+
+.ship-card .preview-container {
+  width: 200px;
+  height: 150px;
+  position: relative;
+}
+
+.ship-card h3 {
+  margin: 0.6rem 0 0.2rem;
+  font-size: 1.1rem;
+  color: #adf;
+}
+
+.ship-card .tagline {
+  font-size: 0.8rem;
+  color: #778;
+  text-align: center;
+  margin-bottom: 0.8rem;
+}
+
+.stat-bars {
+  width: 100%;
+}
+
+.stat-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+  font-size: 0.7rem;
+}
+
+.stat-row .label {
+  width: 60px;
+  color: #99a;
+}
+
+.stat-row .bar {
+  flex: 1;
+  height: 6px;
+  background: rgba(40, 50, 70, 0.8);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.stat-row .bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #4af, #8cf);
+  transition: width 0.3s;
+}
+
+.ship-card .choose-btn {
+  margin-top: 0.8rem;
+  padding: 0.5rem 1.2rem;
+  background: rgba(60, 130, 220, 0.3);
+  border: 1px solid rgba(100, 180, 255, 0.5);
+  border-radius: 6px;
+  color: #adf;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background 0.2s;
+}
+
+.ship-card .choose-btn:hover {
+  background: rgba(60, 130, 220, 0.6);
+}
+
+/* HUD */
+#hud {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+}
+
+#hud > * {
+  pointer-events: auto;
+}
+
+#hud-top-left {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+#ship-name {
+  font-size: 0.8rem;
+  color: #8af;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+#location {
+  font-size: 1rem;
+  color: #cde;
+}
+
+#btn-galaxy {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.6rem 1rem;
+  background: rgba(20, 30, 50, 0.85);
+  border: 1px solid rgba(100, 140, 200, 0.4);
+  border-radius: 8px;
+  color: #acd;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+#btn-galaxy:hover {
+  background: rgba(30, 50, 80, 0.9);
+  border-color: rgba(100, 180, 255, 0.7);
+}
+
+#btn-galaxy:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+#btn-change-ship {
+  position: absolute;
+  top: 1rem;
+  right: 11rem;
+  padding: 0.6rem 1rem;
+  background: rgba(20, 30, 50, 0.85);
+  border: 1px solid rgba(100, 140, 200, 0.4);
+  border-radius: 8px;
+  color: #acd;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+#btn-change-ship:hover {
+  background: rgba(30, 50, 80, 0.9);
+  border-color: rgba(100, 180, 255, 0.7);
+}
+
+/* Panel */
+#panel {
+  position: absolute;
+  right: 1rem;
+  top: 4rem;
+  width: 280px;
+  background: rgba(10, 15, 30, 0.92);
+  border: 1px solid rgba(80, 120, 180, 0.4);
+  border-radius: 10px;
+  padding: 1.2rem;
+}
+
+#panel-title {
+  font-size: 1.1rem;
+  color: #bdf;
+  margin-bottom: 0.5rem;
+}
+
+#panel-body {
+  font-size: 0.85rem;
+  color: #99b;
+  line-height: 1.5;
+  margin-bottom: 0.8rem;
+}
+
+#panel-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+#panel-actions button {
+  padding: 0.5rem 1rem;
+  background: rgba(40, 100, 180, 0.3);
+  border: 1px solid rgba(80, 160, 255, 0.5);
+  border-radius: 6px;
+  color: #adf;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background 0.2s;
+}
+
+#panel-actions button:hover {
+  background: rgba(40, 100, 180, 0.6);
+}
+
+#panel-actions .here-marker {
+  padding: 0.5rem 1rem;
+  color: #6a8;
+  font-size: 0.85rem;
+}
+
+#panel-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.8rem;
+  background: none;
+  border: none;
+  color: #668;
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+#panel-close:hover {
+  color: #aac;
+}
+
+/* Toast */
+#toast {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.6rem 1.4rem;
+  background: rgba(20, 30, 50, 0.9);
+  border: 1px solid rgba(80, 140, 200, 0.4);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: #bcd;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+#toast.show {
+  opacity: 1;
+}
+
+/* Galactic map DOM-overlay labels */
+#map-labels {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 40;
+  overflow: hidden;
+}
+
+.system-label {
+  position: absolute;
+  transform: translate(-50%, -120%);
+  color: #fff;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 4px currentColor, 0 0 8px rgba(102, 204, 255, 0.5);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.system-label.unknown {
+  color: #888;
+  text-shadow: none;
+  font-size: 10px;
+}
+
+.system-label.current {
+  color: #ffe066;
+  font-weight: 600;
+}
+
+.system-label.current::before {
+  content: '\25B8 ';
+}
+
+.system-label.current::after {
+  content: ' \25C2';
+}
+
+/* Cutscene */
+#cutscene {
+  z-index: 200;
+  background: transparent;
+}
+
+#cutscene-text {
+  font-size: 1.4rem;
+  color: rgba(200, 220, 255, 0.9);
+  letter-spacing: 0.15em;
+  text-align: center;
+  animation: fadeInOut 3s ease-in-out;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
+}
