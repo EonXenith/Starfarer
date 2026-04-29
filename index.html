@@ -3,6 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <title>Starfarer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@300;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -24,7 +27,15 @@
     <div id="toast"></div>
   </div>
 
-  <div id="ship-select" class="overlay">
+  <div id="welcome" class="overlay">
+    <div class="welcome-content">
+      <h1 class="welcome-title">STARFARER</h1>
+      <p class="welcome-tagline">Explore the galaxy.</p>
+      <button id="welcome-begin" class="welcome-button">BEGIN</button>
+    </div>
+  </div>
+
+  <div id="ship-select" class="overlay hidden">
     <h1>Starfarer</h1>
     <p class="subtitle">Choose your ship.</p>
     <div id="ship-cards"></div>

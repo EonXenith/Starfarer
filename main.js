@@ -7,6 +7,7 @@ import * as SolarSystem from './views/solarSystem.js';
 import * as PlanetArrival from './views/planetArrival.js';
 import * as GalacticMap from './views/galacticMap.js';
 import * as Cutscenes from './views/cutscenes.js';
+import * as Welcome from './views/welcome.js';
 
 // Renderer setup (§3.1)
 const canvas = document.getElementById('game');
@@ -32,7 +33,7 @@ controls.dampingFactor = 0.08;
 
 // Game state (§5.5)
 const GameState = {
-  view: 'ship_select',
+  view: 'welcome',
   ship: null,
   currentSystemId: 'sol',
   currentPlanetId: 'earth',
@@ -107,13 +108,33 @@ function handleChangeShip() {
 }
 
 // View transitions
+function enterWelcome() {
+  GameState.view = 'welcome';
+  hudEl.classList.add('hidden');
+  Welcome.enter(renderer, () => {
+    // Transition done — enter ship select with a brief fade-in from white
+    enterShipSelect();
+  });
+}
+
 function enterShipSelect() {
   GameState.view = 'ship_select';
   hudEl.classList.add('hidden');
+
+  const shipSelectOverlay = document.getElementById('ship-select');
+  shipSelectOverlay.classList.remove('hidden');
+  shipSelectOverlay.style.opacity = '0';
+  shipSelectOverlay.style.transition = 'opacity 0.5s ease-in';
+
   ShipSelect.enter(renderer, (ship) => {
     GameState.ship = ship;
     shipNameEl.textContent = ship.name;
     enterSolarSystem();
+  });
+
+  // Trigger fade-in on next frame
+  requestAnimationFrame(() => {
+    shipSelectOverlay.style.opacity = '1';
   });
 }
 
@@ -256,6 +277,10 @@ function animate() {
   let sceneToRender = null;
 
   switch (GameState.view) {
+    case 'welcome':
+      // Welcome view handles its own rendering
+      return;
+
     case 'ship_select':
       // Ship select handles its own rendering via viewports
       return;
@@ -288,5 +313,5 @@ function animate() {
 }
 
 // Start
-enterShipSelect();
+enterWelcome();
 animate();
